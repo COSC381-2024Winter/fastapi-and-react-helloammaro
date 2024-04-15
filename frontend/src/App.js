@@ -11,9 +11,29 @@ function App() {
     if (movieId === "") {
       setMovie(null);
     } else {
-      console.log(movieId);
+      fetch(`http://localhost:8000/movies/${movieId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Movie not found');
+          }
+          return response.json();
+        })
+        .then(result => {
+          setMovie(result);
+        })
+        .catch(error => {
+          console.error('Error fetching movie:', error);
+          setMovie(null);
+        });
+
     }
   }, [movieId]);
+
+  useEffect(() => {
+    console.log(movie);
+    }
+  , [movie]);
+
 
   return (
     <div className="App">
@@ -26,16 +46,6 @@ function App() {
           value={movieId}
           onChange={e => setMovieId(e.target.value)}
         />
-        <List>
-          {movie && (
-            <ListItem>
-              <ListItemIcon>
-                <LocalMoviesIcon />
-              </ListItemIcon>
-              <ListItemText primary={movie.name} />
-            </ListItem>
-          )}
-        </List>
       </header>
     </div>
   );
