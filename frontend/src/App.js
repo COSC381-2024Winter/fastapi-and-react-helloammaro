@@ -46,6 +46,16 @@ function App() {
           value={movieId}
           onChange={e => setMovieId(e.target.value)}
         />
+        <List>
+          {movie && (
+            <ListItem>
+              <ListItemIcon>
+                <LocalMoviesIcon />
+              </ListItemIcon>
+              <ListItemText primary={movie.name} />
+            </ListItem>
+          )}
+        </List>
       </header>
     </div>
   );
