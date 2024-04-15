@@ -41,6 +41,17 @@ def delete_movie(movie_id: int) -> Union[Movie, None]:
             return deleted_movie
     raise HTTPException(status_code=404, detail="Movie not found")
 
+@app.post("/movies", response_model=Movie)
+def add_movie(added_movie: MovieRequest) -> Union[Movie, None]:
+    new_id = (movies.counter) + 1
+    new_movie = {
+        'id': new_id,
+        'name': added_movie.movie_name,
+        'cast': added_movie.movie_cast
+    }
+    movies._movies.append(new_movie)
+    movies.counter += 1
+    return new_movie
 
 
 
